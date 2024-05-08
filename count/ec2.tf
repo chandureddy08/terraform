@@ -1,11 +1,12 @@
 resource "aws_instance" "chandu" {
+    count = length(var.instance_names)
+    #count = 3
     ami = "ami-090252cbe067a9e58"
-    vpc_security_group_ids = [aws_security_group.chandu_allow_ssh.id]
     instance_type = "t2.micro"
+    vpc_security_group_ids = [aws_security_group.chandu_allow_ssh.id]
     subnet_id = "subnet-02438e2af84b2481e"
-
     tags = {
-      Name = "chandu"
+      Name = var.instance_names[count.index]
     }
 }
 

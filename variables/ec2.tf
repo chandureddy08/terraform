@@ -1,23 +1,21 @@
 resource "aws_instance" "chandu" {
-    ami = "ami-090252cbe067a9e58"
+    ami = var.images_id
     vpc_security_group_ids = [aws_security_group.chandu_allow_ssh.id]
-    instance_type = "t2.micro"
+    instance_type = var.instance_type
     subnet_id = "subnet-02438e2af84b2481e"
 
-    tags = {
-      Name = "chandu"
-    }
+    tags = var.tags
 }
 
 resource "aws_security_group" "chandu_allow_ssh" {
-    name = "chandu_allow_ssh"
-    description = "aalowing ssh access"
+    name = var.sg_name
+    description = var.sg_description
 
     ingress {
-        from_port = 22
-        to_port = 22
-        protocol = "tcp"
-        cidr_blocks = ["0.0.0.0/0"]
+        from_port = var.ssh_port
+        to_port = var.ssh_port
+        protocol = var.protocol
+        cidr_blocks = var.cidr_blocks
     }
 
     egress {
